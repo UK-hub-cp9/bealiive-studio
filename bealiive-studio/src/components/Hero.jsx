@@ -105,7 +105,7 @@ export default function Hero() {
 
   return (
     <section className="hero" ref={heroRef} id="hero">
-      <h1 className="sr-only">BeAliive Studio — AI-Powered Ads Agency</h1>
+      <h1 className="sr-only">BeAlive Studio — AI-Powered Ads Agency</h1>
 
       {/* Back stickers — behind text */}
       <div className="hero-stickers hero-stickers-back" aria-hidden="true">
@@ -134,7 +134,7 @@ export default function Hero() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
       >
         <div className="hero-title">
-          BeAliive<span className="dot">.</span>
+          BeAlive<span className="dot">.</span>
         </div>
         <div className="hero-subtitle">AI-Powered Creative Studio</div>
       </motion.div>
