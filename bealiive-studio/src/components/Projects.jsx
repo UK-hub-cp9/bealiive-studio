@@ -3,6 +3,12 @@ import { motion, useInView } from 'framer-motion';
 
 const projects = [
   {
+    name: "UK's Fizzi",
+    category: 'Beverage / FMCG',
+    image: "/UK's fizzi/ChatGPT Image Aug 1, 2026, 02_38_34 PM.png",
+    video: "/UK's fizzi/hf_20260801_090312_00bda75b-3a8b-490e-94a3-0ba938e67e95.mp4",
+  },
+  {
     name: 'Aurelle',
     category: 'Beauty / Skincare',
     image: '/Beauty - Aurelle/hf_20260731_131423_ee3c5ecc-d21a-4e96-a983-92a615c06378.png',
@@ -25,12 +31,6 @@ const projects = [
     category: 'Fitness / Supplements',
     image: '/Protein/Maxx Protein Product Shot.png',
     video: null,
-  },
-  {
-    name: "UK's Fizzi",
-    category: 'Beverage / FMCG',
-    image: "/UK's fizzi/ChatGPT Image Aug 1, 2026, 02_38_34 PM.png",
-    video: "/UK's fizzi/hf_20260801_090312_00bda75b-3a8b-490e-94a3-0ba938e67e95.mp4",
   },
 ];
 
@@ -65,6 +65,7 @@ function ProjectCard({ project }) {
             loop
             playsInline
             preload="none"
+            poster={project.image}
           >
             <source src={project.video} type="video/mp4" />
           </video>
