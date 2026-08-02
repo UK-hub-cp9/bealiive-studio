@@ -28,7 +28,7 @@ export default function Navbar() {
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <a href="#" className="nav-brand" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          BeAliive.Studio
+          BeAlive.Studio
         </a>
 
         <div className="nav-links">
