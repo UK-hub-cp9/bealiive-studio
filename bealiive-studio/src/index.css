@@ -1122,10 +1122,11 @@ ul, ol {
   color: #fff;
 }
 
-/* Grid — align-items: start so cards keep their natural height */
+/* Grid — align-items: start so cards keep their natural height, grid-auto-flow: dense packs gaps tightly */
 .all-work-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-auto-flow: dense;
   gap: 20px;
   padding: 3rem var(--container-padding);
   align-items: start;

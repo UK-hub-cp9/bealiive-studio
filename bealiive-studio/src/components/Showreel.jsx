@@ -22,7 +22,7 @@ export default function Showreel() {
             poster="/Beauty - Aurelle/aurelle kit.png"
           >
             <source
-              src="/Beauty - Aurelle/hyper motion.mp4"
+              src="https://res.cloudinary.com/qllilxks/video/upload/v1785946799/hyper_motion_cfjudn.mp4"
               type="video/mp4"
             />
           </video>

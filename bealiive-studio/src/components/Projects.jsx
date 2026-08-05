@@ -6,25 +6,25 @@ const projects = [
     name: 'Aurelle Lipstick',
     category: 'Beauty / Cosmetics',
     image: '/Beauty - Aurelle/lipstick.png',
-    video: '/Beauty - Aurelle/lipstick_ad.mp4',
+    video: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946840/lipstick_ad_ixtc2a.mp4',
   },
   {
     name: "UK's Fizzi",
     category: 'Beverage / FMCG',
     image: "/UK's fizzi/UK's fizzi.png",
-    video: "/UK's fizzi/UK's fizzi ad.mp4",
-  },
-  {
-    name: 'Aurelle Kit',
-    category: 'Beauty / Skincare',
-    image: '/Beauty - Aurelle/aurelle kit.png',
-    video: '/Beauty - Aurelle/aurelle kit ad.mp4',
+    video: "https://res.cloudinary.com/qllilxks/video/upload/v1785946856/UK_s_fizzi_ad_jhz7ym.mp4",
   },
   {
     name: 'Elvia Juice',
     category: 'Beverage / Health',
     image: '/Juice/Elvia juice.png',
-    video: '/Juice/juice_ad.mp4',
+    video: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946911/juice_ad_gbvoa0.mp4',
+  },
+  {
+    name: 'Aurelle Kit',
+    category: 'Beauty / Skincare',
+    image: '/Beauty - Aurelle/aurelle kit.png',
+    video: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946877/aurelle_kit_ad_rux5yd.mp4',
   },
 ];
 
