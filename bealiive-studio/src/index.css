@@ -1111,12 +1111,13 @@ ul, ol {
   color: #fff;
 }
 
-/* Grid */
+/* Grid — align-items: start so cards keep their natural height */
 .all-work-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
   padding: 3rem var(--container-padding);
+  align-items: start;
 }
 
 /* Cards */
@@ -1128,13 +1129,25 @@ ul, ol {
   cursor: pointer;
 }
 
-.work-card-media {
+/* Vertical card (9:16) — default for most AI ads */
+.work-card--v .work-card-media {
   position: relative;
   aspect-ratio: 9 / 16;
   overflow: hidden;
 }
 
-.work-card-media img,
+/* Horizontal card (16:9) — for showreel-style content */
+.work-card--h .work-card-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+/* Horizontal card spans 2 columns so it isn't squished */
+.work-card--h {
+  grid-column: span 2;
+}
+
 .work-card-media video {
   width: 100%;
   height: 100%;
@@ -1143,7 +1156,6 @@ ul, ol {
   transition: transform 0.5s var(--ease-out-expo);
 }
 
-.work-card:hover .work-card-media img,
 .work-card:hover .work-card-media video {
   transform: scale(1.04);
 }
@@ -1154,9 +1166,7 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  color: #fff;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.18);
   opacity: 1;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -1209,5 +1219,11 @@ ul, ol {
     gap: 12px;
     padding: 2rem 16px;
   }
+
+  /* On mobile, horizontal cards take full width instead of 2 cols */
+  .work-card--h {
+    grid-column: span 2;
+  }
 }
+
 

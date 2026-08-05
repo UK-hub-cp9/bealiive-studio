@@ -1,61 +1,44 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-// All media from every folder — sorted by category
+// Videos only — no separate images. Browser shows first frame via preload="metadata".
+// orientation: 'v' = vertical (9:16), 'h' = horizontal (16:9)
 const allWork = [
   // Beauty - Aurelle
-  { type: 'video', src: '/Beauty - Aurelle/lipstick_ad.mp4',       poster: '/Beauty - Aurelle/lipstick.png',      title: 'Lipstick Ad',        category: 'Beauty' },
-  { type: 'image', src: '/Beauty - Aurelle/lipstick.png',                                                         title: 'Lipstick',            category: 'Beauty' },
-  { type: 'video', src: '/Beauty - Aurelle/aurelle kit ad.mp4',     poster: '/Beauty - Aurelle/aurelle kit.png',   title: 'Aurelle Kit Ad',     category: 'Beauty' },
-  { type: 'image', src: '/Beauty - Aurelle/aurelle kit.png',                                                      title: 'Aurelle Kit',         category: 'Beauty' },
-  { type: 'video', src: '/Beauty - Aurelle/aurelle lipstick ad 2.mp4', poster: '/Beauty - Aurelle/lipstick.png',  title: 'Lipstick Ad 2',      category: 'Beauty' },
-  { type: 'video', src: '/Beauty - Aurelle/hyper motion.mp4',       poster: '/Beauty - Aurelle/aurelle kit.png',  title: 'Hyper Motion',       category: 'Beauty' },
-  { type: 'video', src: '/Beauty - Aurelle/ugc.mp4',                poster: '/Beauty - Aurelle/lipstick.png',     title: 'UGC',                category: 'Beauty' },
-  { type: 'video', src: '/Beauty - Aurelle/ugc 2.mp4',              poster: '/Beauty - Aurelle/lipstick.png',     title: 'UGC 2',              category: 'Beauty' },
-  { type: 'video', src: '/Beauty - Aurelle/ugc 3.mp4',              poster: '/Beauty - Aurelle/aurelle kit.png',  title: 'UGC 3',              category: 'Beauty' },
+  { src: '/Beauty - Aurelle/lipstick_ad.mp4',           title: 'Lipstick Ad',          category: 'Beauty',   orientation: 'v' },
+  { src: '/Beauty - Aurelle/aurelle kit ad.mp4',         title: 'Aurelle Kit Ad',       category: 'Beauty',   orientation: 'v' },
+  { src: '/Beauty - Aurelle/aurelle lipstick ad 2.mp4',  title: 'Lipstick Ad 2',        category: 'Beauty',   orientation: 'v' },
+  { src: '/Beauty - Aurelle/hyper motion.mp4',           title: 'Hyper Motion',         category: 'Beauty',   orientation: 'h' },
+  { src: '/Beauty - Aurelle/ugc.mp4',                    title: 'UGC',                  category: 'Beauty',   orientation: 'v' },
+  { src: '/Beauty - Aurelle/ugc 2.mp4',                  title: 'UGC 2',                category: 'Beauty',   orientation: 'v' },
+  { src: '/Beauty - Aurelle/ugc 3.mp4',                  title: 'UGC 3',                category: 'Beauty',   orientation: 'v' },
 
   // Hair Serum
-  { type: 'video', src: '/Beauty - hair serum/hair serum ad.mp4',   poster: '/Beauty - hair serum/ChatGPT Image Aug 5, 2026, 07_26_49 PM.png', title: 'Hair Serum Ad', category: 'Beauty' },
-  { type: 'image', src: '/Beauty - hair serum/ChatGPT Image Aug 5, 2026, 07_26_49 PM.png',                       title: 'Hair Serum',         category: 'Beauty' },
+  { src: '/Beauty - hair serum/hair serum ad.mp4',       title: 'Hair Serum Ad',        category: 'Beauty',   orientation: 'v' },
 
   // UK's Fizzi
-  { type: 'video', src: "/UK's fizzi/UK's fizzi ad.mp4",            poster: "/UK's fizzi/UK's fizzi.png",         title: "UK's Fizzi Ad",      category: 'Beverage' },
-  { type: 'image', src: "/UK's fizzi/UK's fizzi.png",                                                             title: "UK's Fizzi",          category: 'Beverage' },
+  { src: "/UK's fizzi/UK's fizzi ad.mp4",                title: "UK's Fizzi Ad",        category: 'Beverage', orientation: 'v' },
 
   // Juice
-  { type: 'video', src: '/Juice/juice_ad.mp4',                      poster: '/Juice/Elvia juice.png',             title: 'Elvia Juice Ad',     category: 'Beverage' },
-  { type: 'video', src: '/Juice/hf_20260804_005622_94ce7344-84d5-4db2-b4d7-bce4b4d6e399 (1).mp4', poster: '/Juice/Elvia juice.png', title: 'Elvia Juice HF', category: 'Beverage' },
-  { type: 'image', src: '/Juice/Elvia juice.png',                                                                 title: 'Elvia Juice',         category: 'Beverage' },
+  { src: '/Juice/juice_ad.mp4',                          title: 'Elvia Juice Ad',       category: 'Beverage', orientation: 'v' },
+  { src: '/Juice/hf_20260804_005622_94ce7344-84d5-4db2-b4d7-bce4b4d6e399 (1).mp4', title: 'Elvia Juice HF', category: 'Beverage', orientation: 'v' },
 
   // Sneakers
-  { type: 'video', src: '/Sneakers/sneakers_unboxing.mp4',           poster: '/Sneakers/female sneakers.png',     title: 'Sneakers Unboxing',  category: 'Fashion' },
-  { type: 'image', src: '/Sneakers/female sneakers.png',                                                          title: 'Female Sneakers',    category: 'Fashion' },
+  { src: '/Sneakers/sneakers_unboxing.mp4',              title: 'Sneakers Unboxing',    category: 'Fashion',  orientation: 'v' },
 
   // BeALive Merch
-  { type: 'video', src: '/BeALive merch/bealive merch ad.mp4',       poster: '/BeALive merch/bealive merch.png',  title: 'BeALive Merch Ad',   category: 'Brand' },
-  { type: 'image', src: '/BeALive merch/bealive merch.png',                                                       title: 'BeALive Merch',      category: 'Brand' },
+  { src: '/BeALive merch/bealive merch ad.mp4',          title: 'BeALive Merch Ad',     category: 'Brand',    orientation: 'v' },
 ];
 
 const categories = ['All', 'Beauty', 'Beverage', 'Fashion', 'Brand'];
 
-function MediaCard({ item, index }) {
+function VideoCard({ item, index }) {
   const videoRef = useRef(null);
   const [playing, setPlaying] = useState(false);
 
-  const toggle = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play().catch(() => { });
-      setPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setPlaying(false);
-    }
-  };
-
   const handleMouseEnter = () => {
     if (videoRef.current) {
-      videoRef.current.play().catch(() => { });
+      videoRef.current.play().catch(() => {});
       setPlaying(true);
     }
   };
@@ -63,39 +46,49 @@ function MediaCard({ item, index }) {
   const handleMouseLeave = () => {
     if (videoRef.current) {
       videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setPlaying(false);
+    }
+  };
+
+  const handleTap = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play().catch(() => {});
+      setPlaying(true);
+    } else {
+      videoRef.current.pause();
       setPlaying(false);
     }
   };
 
   return (
     <motion.div
-      className="work-card"
+      className={`work-card work-card--${item.orientation}`}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: (index % 6) * 0.06 }}
-      onMouseEnter={item.type === 'video' ? handleMouseEnter : undefined}
-      onMouseLeave={item.type === 'video' ? handleMouseLeave : undefined}
-      onClick={item.type === 'video' ? toggle : undefined}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: (index % 4) * 0.07 }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleTap}
     >
       <div className="work-card-media">
-        {item.type === 'video' ? (
-          <>
-            <video
-              ref={videoRef}
-              muted
-              loop
-              playsInline
-              preload="none"
-              poster={item.poster}
-            >
-              <source src={item.src} type="video/mp4" />
-            </video>
-            <div className={`work-play-icon ${playing ? 'hidden' : ''}`}>▶</div>
-          </>
-        ) : (
-          <img src={item.src} alt={item.title} loading="lazy" />
-        )}
+        <video
+          ref={videoRef}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        >
+          <source src={item.src} type="video/mp4" />
+        </video>
+        {/* Play overlay — fades out when playing */}
+        <div className={`work-play-icon ${playing ? 'hidden' : ''}`}>
+          <svg viewBox="0 0 24 24" fill="white" width="36" height="36">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
       </div>
       <div className="work-card-info">
         <span className="work-card-title">{item.title}</span>
@@ -134,10 +127,9 @@ export default function AllWork() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
         >
-          Every frame we've crafted — hover to play, tap to explore.
+          Every frame we've crafted — hover to play, tap on mobile.
         </motion.p>
 
-        {/* Filter tabs */}
         <motion.div
           className="all-work-filters"
           initial={{ opacity: 0, y: 15 }}
@@ -158,7 +150,7 @@ export default function AllWork() {
 
       <main className="all-work-grid">
         {filtered.map((item, i) => (
-          <MediaCard key={item.src} item={item} index={i} />
+          <VideoCard key={item.src} item={item} index={i} />
         ))}
       </main>
 
