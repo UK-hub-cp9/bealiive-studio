@@ -609,12 +609,11 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .arrow-hint img {
-  width: clamp(48px, 6vw, 80px);
+  width: clamp(120px, 18vw, 220px);
   height: auto;
   object-fit: contain;
   animation: arrowBounce 1.6s ease-in-out infinite;
@@ -622,16 +621,7 @@ ul, ol {
 
 @keyframes arrowBounce {
   0%, 100% { transform: translateX(0) rotate(-5deg); }
-  50%       { transform: translateX(10px) rotate(5deg); }
-}
-
-.arrow-hint-text {
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--gray-600);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  50%       { transform: translateX(14px) rotate(6deg); }
 }
 
 /* Fun swipe/scroll hint */
@@ -795,22 +785,58 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   margin-top: 2rem;
-  padding-right: var(--container-padding);
-  text-align: right;
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gray-400);
 }
 
 .drag-badge svg {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   stroke: var(--gray-400);
+  stroke-width: 1.5;
+}
+
+/* See Our Work button below projects */
+.projects-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+  padding-bottom: 1rem;
+}
+
+.see-work-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 36px;
+  border: 1.5px solid var(--text-primary);
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s var(--ease-out-expo);
+}
+
+.see-work-btn:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  transform: scale(1.04);
+}
+
+.see-work-btn svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
   stroke-width: 1.5;
   fill: none;
 }

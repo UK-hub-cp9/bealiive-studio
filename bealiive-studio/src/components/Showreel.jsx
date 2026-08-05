@@ -19,10 +19,10 @@ export default function Showreel() {
             loop
             playsInline
             preload="none"
-            poster="/Beauty - Aurelle/hf_20260731_131423_ee3c5ecc-d21a-4e96-a983-92a615c06378.png"
+            poster="/Beauty - Aurelle/aurelle kit.png"
           >
             <source
-              src="/Beauty - Aurelle/hf_20260731_143246_f77ccd34-c7a3-4bae-a623-3783b0d8339c.mp4"
+              src="/Beauty - Aurelle/hyper motion.mp4"
               type="video/mp4"
             />
           </video>

@@ -148,36 +148,14 @@ export default function Projects() {
           Featured Projects
         </motion.p>
 
-        {/* Arrow hint image */}
+        {/* Arrow hint — big & centered */}
         <motion.div
           className="arrow-hint"
           initial={{ opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
         >
-          <img src="/arrow.png" alt="Click on photos to play video" />
-          <span className="arrow-hint-text">click photos to play video</span>
-        </motion.div>
-
-        {/* Fun swipe/scroll hint */}
-        <motion.div
-          className="swipe-hint"
-          initial={{ opacity: 0, y: 15 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-        >
-          <span className="swipe-hint-hand">👆</span>
-          <span className="swipe-hint-text">
-            <span className="swipe-hint-desktop">Hover for magic</span>
-            <span className="swipe-hint-mobile">click for magic</span>
-          </span>
-          <motion.span
-            className="swipe-hint-arrow"
-            animate={{ x: [0, 12, 0] }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            →
-          </motion.span>
+          <img src="/arrow.png" alt="Explore projects" />
         </motion.div>
       </div>
 
@@ -204,6 +182,21 @@ export default function Projects() {
           <path d="M3 2l4 3-4 3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
         </svg>
       </div>
+
+      {/* See Our Work button */}
+      <motion.div
+        className="projects-cta"
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+      >
+        <a href="/all-work" className="see-work-btn">
+          See Our Work
+          <svg viewBox="0 0 12 12">
+            <path d="M2 10L10 2M10 2H3M10 2V9" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </svg>
+        </a>
+      </motion.div>
     </section>
   );
 }
