@@ -39,7 +39,7 @@ export default function Footer() {
           </motion.div>
 
           <motion.a
-            href="mailto:hello@bealiive.studio"
+            href="mailto:support.bealive.studio@gmail.com"
             className="footer-cta-btn"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -59,7 +59,7 @@ export default function Footer() {
           transition={{ delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <p>
-            <a href="mailto:hello@bealiive.studio">hello@bealiive.studio</a>
+            <a href="mailto:support.bealive.studio@gmail.com">support.bealive.studio@gmail.com</a>
           </p>
           <p style={{ marginTop: '0.5rem' }}>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
@@ -77,6 +77,7 @@ export default function Footer() {
           <a href="#showreel">Work</a>
           <a href="#about">About</a>
           <a href="#projects">Projects</a>
+          <a href="/all-work">All Work</a>
           <a href="#footer">Contact</a>
         </div>
         <span className="footer-copy">© 2026 BeAliive Studio. All rights reserved.</span>

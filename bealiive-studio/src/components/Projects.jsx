@@ -1,36 +1,30 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const projects = [
   {
+    name: 'Aurelle Lipstick',
+    category: 'Beauty / Cosmetics',
+    image: '/Beauty - Aurelle/lipstick.png',
+    video: '/Beauty - Aurelle/lipstick_ad.mp4',
+  },
+  {
     name: "UK's Fizzi",
     category: 'Beverage / FMCG',
-    image: "/UK's fizzi/ChatGPT Image Aug 1, 2026, 02_38_34 PM.png",
-    video: "/UK's fizzi/hf_20260801_090312_00bda75b-3a8b-490e-94a3-0ba938e67e95.mp4",
+    image: "/UK's fizzi/UK's fizzi.png",
+    video: "/UK's fizzi/UK's fizzi ad.mp4",
   },
   {
-    name: 'Aurelle',
+    name: 'Aurelle Kit',
     category: 'Beauty / Skincare',
-    image: '/Beauty - Aurelle/hf_20260731_131423_ee3c5ecc-d21a-4e96-a983-92a615c06378.png',
-    video: '/Beauty - Aurelle/hf_20260731_134654_ff3a3c25-c759-4c89-af6d-72154e8280b9.mp4',
+    image: '/Beauty - Aurelle/aurelle kit.png',
+    video: '/Beauty - Aurelle/aurelle kit ad.mp4',
   },
   {
-    name: 'Hair Serum',
-    category: 'Beauty / Haircare',
-    image: '/Beauty - hair serum/ChatGPT Image Aug 1, 2026, 12_31_28 PM.png',
-    video: '/Beauty - hair serum/hf_20260801_071821_ce9e2d18-1c13-43bc-9cb8-c7c0d60620ca.mp4',
-  },
-  {
-    name: 'Bonkers',
-    category: 'Fashion / Streetwear',
-    image: '/Bonkers/ChatGPT Image Aug 2, 2026, 01_29_33 PM.png',
-    video: '/Bonkers/hf_20260802_081241_1dfd7022-633f-44f9-bc00-7e62007aa4c8.mp4',
-  },
-  {
-    name: 'Maxx Protein',
-    category: 'Fitness / Supplements',
-    image: '/Protein/Maxx Protein Product Shot.png',
-    video: null,
+    name: 'Elvia Juice',
+    category: 'Beverage / Health',
+    image: '/Juice/Elvia juice.png',
+    video: '/Juice/juice_ad.mp4',
   },
 ];
 
@@ -50,11 +44,22 @@ function ProjectCard({ project }) {
     }
   };
 
+  // Touch: tap to play/pause on mobile
+  const handleTap = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play().catch(() => { });
+    } else {
+      videoRef.current.pause();
+    }
+  };
+
   return (
     <div
       className="project-card"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleTap}
     >
       <div className="project-card-media">
         <img src={project.image} alt={project.name} loading="lazy" />
@@ -143,6 +148,17 @@ export default function Projects() {
           Featured Projects
         </motion.p>
 
+        {/* Arrow hint image */}
+        <motion.div
+          className="arrow-hint"
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
+        >
+          <img src="/arrow.png" alt="Click on photos to play video" />
+          <span className="arrow-hint-text">click photos to play video</span>
+        </motion.div>
+
         {/* Fun swipe/scroll hint */}
         <motion.div
           className="swipe-hint"
@@ -150,7 +166,7 @@ export default function Projects() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
         >
-          <span className="swipe-hint-hand"></span>
+          <span className="swipe-hint-hand">👆</span>
           <span className="swipe-hint-text">
             <span className="swipe-hint-desktop">Hover for magic</span>
             <span className="swipe-hint-mobile">click for magic</span>
