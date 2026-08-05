@@ -5,36 +5,36 @@ import { motion } from 'framer-motion';
 // Back layer: behind the text (z-index 2)
 const backStickers = [
   {
-    src: "/UK's fizzi/UK's fizzi.png",
-    x: 8, y: 20, w: 14, r: '-6deg', speed: 0.18,
+    src: '/Beauty - hair serum/ChatGPT Image Aug 5, 2026, 07_26_49 PM.png',
+    x: 26, y: 22, w: 8, r: '-6deg', speed: 0.12,
   },
   {
     src: '/Juice/Elvia juice.png',
-    x: 85, y: 25, w: 12, r: '4deg', speed: 0.25,
+    x: 74, y: 20, w: 9, r: '5deg', speed: 0.15,
   },
   {
     src: '/Beauty - Aurelle/aurelle kit.png',
-    x: 25, y: 75, w: 14, r: '-3deg', speed: 0.12,
+    x: 28, y: 78, w: 9, r: '-4deg', speed: 0.18,
   },
   {
     src: '/BeALive merch/bealive merch.png',
-    x: 75, y: 78, w: 16, r: '2deg', speed: 0.3,
+    x: 72, y: 76, w: 10, r: '4deg', speed: 0.14,
   },
 ];
 
 // Front layer: on top of the text (z-index 8)
 const frontStickers = [
   {
-    src: '/Beauty - Aurelle/lipstick.png',
-    x: 18, y: 45, w: 12, r: '3deg', speed: 0.2,
+    src: "/UK's fizzi/UK's fizzi.png",
+    x: 14, y: 48, w: 8, r: '-8deg', speed: 0.16,
   },
   {
     src: '/Sneakers/female sneakers.png',
-    x: 82, y: 50, w: 16, r: '-4deg', speed: 0.14,
+    x: 86, y: 46, w: 10, r: '6deg', speed: 0.2,
   },
   {
-    src: '/Beauty - hair serum/ChatGPT Image Aug 5, 2026, 07_26_49 PM.png',
-    x: 50, y: 15, w: 13, r: '5deg', speed: 0.22,
+    src: '/Beauty - Aurelle/lipstick.png',
+    x: 50, y: 16, w: 7, r: '8deg', speed: 0.22,
   },
 ];
 
