@@ -780,7 +780,7 @@ ul, ol {
   color: var(--accent);
 }
 
-/* Drag badge */
+/* Drag indicator — visible on BOTH desktop and mobile */
 .drag-badge {
   display: flex;
   align-items: center;
@@ -789,17 +789,38 @@ ul, ol {
   margin-top: 2rem;
   font-family: var(--font-body);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gray-400);
+  color: var(--gray-600);
 }
 
-.drag-badge svg {
-  width: 14px;
-  height: 14px;
-  stroke: var(--gray-400);
-  stroke-width: 1.5;
+.drag-badge-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gray-200);
+  border: 1.5px solid var(--gray-400);
+  border-radius: 100px;
+  padding: 10px 22px;
+}
+
+.drag-arrow-left {
+  animation: nudgeLeft 1.4s ease-in-out infinite;
+}
+
+.drag-arrow-right {
+  animation: nudgeRight 1.4s ease-in-out infinite;
+}
+
+@keyframes nudgeLeft {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(-5px); }
+}
+
+@keyframes nudgeRight {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(5px); }
 }
 
 /* See Our Work button below projects */
@@ -999,19 +1020,19 @@ ul, ol {
     font-size: clamp(1.4rem, 5vw, 2rem);
   }
 
-  /* Project cards — full width, snap-centered on mobile */
+  /* Project cards — show peek of next/prev card on mobile */
   .projects-strip {
-    padding: 0;
-    gap: 0;
+    padding: 0 9vw;          /* padding so side gaps show the peeking card */
+    gap: 16px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
   }
 
   .project-card {
-    width: 100vw;
+    width: 82vw;            /* narrower than viewport — next card peeks on right */
     flex-shrink: 0;
     scroll-snap-align: center;
-    border-radius: 0;
+    border-radius: 12px;
   }
 
   .footer-top {
@@ -1024,10 +1045,6 @@ ul, ol {
 
   .footer-cta-claim {
     font-size: clamp(1.6rem, 7vw, 2.5rem);
-  }
-
-  .drag-badge {
-    display: none;
   }
 }
 

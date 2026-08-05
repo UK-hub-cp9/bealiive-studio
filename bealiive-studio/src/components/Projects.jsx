@@ -174,13 +174,11 @@ export default function Projects() {
       </div>
 
       <div className="drag-badge">
-        <svg viewBox="0 0 10 10">
-          <path d="M7 2L3 5l4 3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        </svg>
-        DRAG
-        <svg viewBox="0 0 10 10">
-          <path d="M3 2l4 3-4 3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        </svg>
+        <div className="drag-badge-inner">
+          <span className="drag-arrow-left">←</span>
+          DRAG TO EXPLORE
+          <span className="drag-arrow-right">→</span>
+        </div>
       </div>
 
       {/* See Our Work button */}
