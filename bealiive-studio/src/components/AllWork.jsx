@@ -1,50 +1,53 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-// Videos only — no separate images. Browser shows first frame via preload="metadata".
-// orientation: 'v' = vertical (9:16), 'h' = horizontal (16:9)
+// Mix of images and videos from Cloudinary and local assets
 const allWork = [
-  // Beauty - Aurelle
-  { src: '/Beauty - Aurelle/lipstick_ad.mp4',           title: 'Lipstick Ad',          category: 'Beauty',   orientation: 'v' },
-  { src: '/Beauty - Aurelle/aurelle kit ad.mp4',         title: 'Aurelle Kit Ad',       category: 'Beauty',   orientation: 'v' },
-  { src: '/Beauty - Aurelle/aurelle lipstick ad 2.mp4',  title: 'Lipstick Ad 2',        category: 'Beauty',   orientation: 'v' },
-  { src: '/Beauty - Aurelle/hyper motion.mp4',           title: 'Hyper Motion',         category: 'Beauty',   orientation: 'h' },
-  { src: '/Beauty - Aurelle/ugc.mp4',                    title: 'UGC',                  category: 'Beauty',   orientation: 'v' },
-  { src: '/Beauty - Aurelle/ugc 2.mp4',                  title: 'UGC 2',                category: 'Beauty',   orientation: 'v' },
-  { src: '/Beauty - Aurelle/ugc 3.mp4',                  title: 'UGC 3',                category: 'Beauty',   orientation: 'v' },
+  // 1st and 2nd specifically requested
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947240/bealive_merch_ad_ot3cqt.mp4', title: 'BeALive Merch Ad', category: 'Brand', orientation: 'v' },
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947233/aurelle_lipstick_ad_2_gkmxjj.mp4', title: 'Aurelle Lipstick Ad 2', category: 'Beauty', orientation: 'v' },
+  
+  // Mixed content
+  { type: 'image', src: '/Beauty - Aurelle/lipstick.png', title: 'Lipstick', category: 'Beauty', orientation: 'v' },
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_2_xouuti.mp4', title: 'UGC 2', category: 'Beauty', orientation: 'h' },
+  { type: 'image', src: '/Sneakers/female sneakers.png', title: 'Female Sneakers', category: 'Fashion', orientation: 'v' },
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947284/sneakers_unboxing_e3axjh.mp4', title: 'Sneakers Unboxing', category: 'Fashion', orientation: 'v' },
+  
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946799/hyper_motion_cfjudn.mp4', title: 'Hyper Motion', category: 'Beauty', orientation: 'h' },
+  { type: 'image', src: '/Beauty - Aurelle/aurelle kit.png', title: 'Aurelle Kit', category: 'Beauty', orientation: 'v' },
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946840/lipstick_ad_ixtc2a.mp4', title: 'Lipstick Ad', category: 'Beauty', orientation: 'v' },
+  
+  { type: 'image', src: '/Beauty - hair serum/ChatGPT Image Aug 5, 2026, 07_26_49 PM.png', title: 'Hair Serum', category: 'Beauty', orientation: 'v' },
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947247/hair_serum_ad_sznob4.mp4', title: 'Hair Serum Ad', category: 'Beauty', orientation: 'v' },
+  
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_3_gub3ak.mp4', title: 'UGC 3', category: 'Beauty', orientation: 'h' },
+  { type: 'image', src: "/UK's fizzi/UK's fizzi.png", title: "UK's Fizzi", category: 'Beverage', orientation: 'v' },
+  { type: 'video', src: "https://res.cloudinary.com/qllilxks/video/upload/v1785946856/UK_s_fizzi_ad_jhz7ym.mp4", title: "UK's Fizzi Ad", category: 'Beverage', orientation: 'v' },
 
-  // Hair Serum
-  { src: '/Beauty - hair serum/hair serum ad.mp4',       title: 'Hair Serum Ad',        category: 'Beauty',   orientation: 'v' },
-
-  // UK's Fizzi
-  { src: "/UK's fizzi/UK's fizzi ad.mp4",                title: "UK's Fizzi Ad",        category: 'Beverage', orientation: 'v' },
-
-  // Juice
-  { src: '/Juice/juice_ad.mp4',                          title: 'Elvia Juice Ad',       category: 'Beverage', orientation: 'v' },
-  { src: '/Juice/hf_20260804_005622_94ce7344-84d5-4db2-b4d7-bce4b4d6e399 (1).mp4', title: 'Elvia Juice HF', category: 'Beverage', orientation: 'v' },
-
-  // Sneakers
-  { src: '/Sneakers/sneakers_unboxing.mp4',              title: 'Sneakers Unboxing',    category: 'Fashion',  orientation: 'v' },
-
-  // BeALive Merch
-  { src: '/BeALive merch/bealive merch ad.mp4',          title: 'BeALive Merch Ad',     category: 'Brand',    orientation: 'v' },
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946877/aurelle_kit_ad_rux5yd.mp4', title: 'Aurelle Kit Ad', category: 'Beauty', orientation: 'v' },
+  { type: 'image', src: '/Juice/Elvia juice.png', title: 'Elvia Juice', category: 'Beverage', orientation: 'v' },
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946911/juice_ad_gbvoa0.mp4', title: 'Elvia Juice Ad', category: 'Beverage', orientation: 'v' },
+  
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947491/hf_20260804_000956_11bb5daa-e13f-4300-9993-5b977d1cabf0_1_zw1s14.mp4', title: 'Elvia Juice HF', category: 'Beverage', orientation: 'v' },
+  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_gaar5m.mp4', title: 'UGC', category: 'Beauty', orientation: 'v' },
+  { type: 'image', src: '/BeALive merch/bealive merch.png', title: 'BeALive Merch', category: 'Brand', orientation: 'v' },
 ];
 
 const categories = ['All', 'Beauty', 'Beverage', 'Fashion', 'Brand'];
 
-function VideoCard({ item, index }) {
+function MediaCard({ item, index }) {
   const videoRef = useRef(null);
   const [playing, setPlaying] = useState(false);
 
   const handleMouseEnter = () => {
-    if (videoRef.current) {
+    if (item.type === 'video' && videoRef.current) {
       videoRef.current.play().catch(() => {});
       setPlaying(true);
     }
   };
 
   const handleMouseLeave = () => {
-    if (videoRef.current) {
+    if (item.type === 'video' && videoRef.current) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
       setPlaying(false);
@@ -52,13 +55,14 @@ function VideoCard({ item, index }) {
   };
 
   const handleTap = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play().catch(() => {});
-      setPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setPlaying(false);
+    if (item.type === 'video' && videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play().catch(() => {});
+        setPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setPlaying(false);
+      }
     }
   };
 
@@ -74,21 +78,27 @@ function VideoCard({ item, index }) {
       onClick={handleTap}
     >
       <div className="work-card-media">
-        <video
-          ref={videoRef}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source src={item.src} type="video/mp4" />
-        </video>
-        {/* Play overlay — fades out when playing */}
-        <div className={`work-play-icon ${playing ? 'hidden' : ''}`}>
-          <svg viewBox="0 0 24 24" fill="white" width="36" height="36">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </div>
+        {item.type === 'video' ? (
+          <>
+            <video
+              ref={videoRef}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            >
+              <source src={item.src} type="video/mp4" />
+            </video>
+            {/* Play overlay — fades out when playing */}
+            <div className={`work-play-icon ${playing ? 'hidden' : ''}`}>
+              <svg viewBox="0 0 24 24" fill="white" width="36" height="36">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </>
+        ) : (
+          <img src={item.src} alt={item.title} loading="lazy" />
+        )}
       </div>
       <div className="work-card-info">
         <span className="work-card-title">{item.title}</span>
@@ -150,7 +160,7 @@ export default function AllWork() {
 
       <main className="all-work-grid">
         {filtered.map((item, i) => (
-          <VideoCard key={item.src} item={item} index={i} />
+          <MediaCard key={item.src} item={item} index={i} />
         ))}
       </main>
 
