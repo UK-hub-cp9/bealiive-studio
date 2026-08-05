@@ -12,7 +12,12 @@ const isAllWork = window.location.pathname === '/all-work';
 
 export default function App() {
   if (isAllWork) {
-    return <AllWork />;
+    return (
+      <>
+        <CustomCursor />
+        <AllWork />
+      </>
+    );
   }
 
   return (

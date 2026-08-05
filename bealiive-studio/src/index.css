@@ -613,15 +613,9 @@ ul, ol {
 }
 
 .arrow-hint img {
-  width: clamp(120px, 18vw, 220px);
+  width: clamp(200px, 30vw, 400px);
   height: auto;
   object-fit: contain;
-  animation: arrowBounce 1.6s ease-in-out infinite;
-}
-
-@keyframes arrowBounce {
-  0%, 100% { transform: translateX(0) rotate(-5deg); }
-  50%       { transform: translateX(14px) rotate(6deg); }
 }
 
 /* Fun swipe/scroll hint */
