@@ -38,22 +38,6 @@ export default function About() {
         ))}
       </motion.p>
 
-      <motion.a
-        href="#projects"
-        className="about-cta"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        onClick={(e) => {
-          e.preventDefault();
-          document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-        }}
-      >
-        See Our Work
-        <svg viewBox="0 0 10 10">
-          <path d="M2 8L8 2M8 2H3M8 2V7" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </motion.a>
     </section>
   );
 }

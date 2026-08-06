@@ -39,7 +39,9 @@ export default function Footer() {
           </motion.div>
 
           <motion.a
-            href="mailto:support.bealive.studio@gmail.com"
+            href="https://wa.me/917248908465"
+            target="_blank"
+            rel="noopener noreferrer"
             className="footer-cta-btn"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -62,11 +64,9 @@ export default function Footer() {
             <a href="mailto:support.bealive.studio@gmail.com">support.bealive.studio@gmail.com</a>
           </p>
           <p style={{ marginTop: '0.5rem' }}>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.instagram.com/bealive.studio" target="_blank" rel="noopener noreferrer">Instagram</a>
             {' · '}
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">X / Twitter</a>
-            {' · '}
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://x.com/bealivestd?s=21" target="_blank" rel="noopener noreferrer">X / Twitter</a>
           </p>
         </motion.div>
       </div>

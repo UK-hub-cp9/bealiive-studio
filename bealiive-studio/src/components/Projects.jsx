@@ -1,76 +1,87 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
+
+// Generate video first-frame thumbnail from Cloudinary video URL
+function getVideoPoster(videoUrl) {
+  return videoUrl
+    .replace('/upload/', '/upload/so_0/')
+    .replace('.mp4', '.jpg');
+}
 
 const projects = [
   {
     name: 'Aurelle Lipstick',
     category: 'Beauty / Cosmetics',
-    image: '/Beauty - Aurelle/lipstick.png',
     video: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946840/lipstick_ad_ixtc2a.mp4',
   },
   {
     name: "UK's Fizzi",
     category: 'Beverage / FMCG',
-    image: "/UK's fizzi/UK's fizzi.png",
-    video: "https://res.cloudinary.com/qllilxks/video/upload/v1785946856/UK_s_fizzi_ad_jhz7ym.mp4",
+    video: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946856/UK_s_fizzi_ad_jhz7ym.mp4',
   },
   {
     name: 'Elvia Juice',
     category: 'Beverage / Health',
-    image: '/Juice/Elvia juice.png',
     video: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946911/juice_ad_gbvoa0.mp4',
   },
   {
     name: 'Aurelle Kit',
     category: 'Beauty / Skincare',
-    image: '/Beauty - Aurelle/aurelle kit.png',
     video: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946877/aurelle_kit_ad_rux5yd.mp4',
   },
 ];
 
 function ProjectCard({ project }) {
   const videoRef = useRef(null);
+  const cardRef = useRef(null);
 
-  const handleMouseEnter = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => { });
-    }
-  };
+  useEffect(() => {
+    const video = videoRef.current;
+    const card = cardRef.current;
+    if (!video || !card) return;
 
-  const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
-  };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const promise = video.play();
+          if (promise !== undefined) {
+            promise.catch(() => {});
+          }
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.15 }
+    );
 
-  // Touch: tap to play/pause on mobile
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, []);
+
   const handleTap = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play().catch(() => { });
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().catch(() => {});
     } else {
-      videoRef.current.pause();
+      video.pause();
     }
   };
 
   return (
     <div
+      ref={cardRef}
       className="project-card"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       onClick={handleTap}
     >
       <div className="project-card-media">
-        <img src={project.image} alt={project.name} loading="lazy" />
         {project.video && (
           <video
             ref={videoRef}
             muted
             loop
             playsInline
-            preload="none"
-            poster={project.image}
+            preload="auto"
           >
             <source src={project.video} type="video/mp4" />
           </video>
@@ -89,7 +100,17 @@ export default function Projects() {
   const stripRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
-  // Drag scroll
+  // Arrow navigation
+  const scrollByCard = (direction) => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    const card = strip.querySelector('.project-card');
+    if (!card) return;
+    const cardWidth = card.offsetWidth + 24;
+    strip.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+  };
+
+  // Drag scroll (desktop)
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
@@ -140,26 +161,27 @@ export default function Projects() {
     <section className="projects" id="projects" ref={sectionRef}>
       <div className="projects-head">
         <motion.p
-          className="section-label"
+          className="section-label projects-label"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           Featured Projects
         </motion.p>
-
-        {/* Arrow hint — big & centered */}
-        <motion.div
-          className="arrow-hint"
-          initial={{ opacity: 0, y: 10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-        >
-          <img src="/arrow.png" alt="Explore projects" />
-        </motion.div>
       </div>
 
       <div className="projects-stage">
+        {/* Left arrow */}
+        <button
+          className="projects-nav-arrow projects-nav-arrow--left"
+          onClick={() => scrollByCard(-1)}
+          aria-label="Scroll left"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
         <motion.div
           className="projects-strip"
           ref={stripRef}
@@ -168,17 +190,20 @@ export default function Projects() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
         >
           {projects.map((project, i) => (
-            <ProjectCard key={i} project={project} />
+            <ProjectCard key={i} project={project} index={i} />
           ))}
         </motion.div>
-      </div>
 
-      <div className="drag-badge">
-        <div className="drag-badge-inner">
-          <span className="drag-arrow-left">←</span>
-          DRAG TO EXPLORE
-          <span className="drag-arrow-right">→</span>
-        </div>
+        {/* Right arrow */}
+        <button
+          className="projects-nav-arrow projects-nav-arrow--right"
+          onClick={() => scrollByCard(1)}
+          aria-label="Scroll right"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
       </div>
 
       {/* See Our Work button */}

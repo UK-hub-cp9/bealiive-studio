@@ -5,19 +5,19 @@ import { motion } from 'framer-motion';
 // Back layer: behind the text (z-index 2)
 const backStickers = [
   {
-    src: '/Beauty - hair serum/ChatGPT Image Aug 5, 2026, 07_26_49 PM.png',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033535/ChatGPT_Image_Aug_5_2026_07_26_49_PM_iaoob7.png',
     x: 26, y: 22, w: 8, r: '-6deg', speed: 0.12,
   },
   {
-    src: '/Juice/Elvia juice.png',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033493/Elvia_juice_pb69vg.png',
     x: 74, y: 20, w: 9, r: '5deg', speed: 0.15,
   },
   {
-    src: '/Beauty - Aurelle/aurelle kit.png',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033520/aurelle_kit_lijoqr.png',
     x: 28, y: 78, w: 9, r: '-4deg', speed: 0.18,
   },
   {
-    src: '/BeALive merch/bealive merch.png',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033506/bealive_merch_civ2uv.png',
     x: 72, y: 76, w: 10, r: '4deg', speed: 0.14,
   },
 ];
@@ -25,15 +25,15 @@ const backStickers = [
 // Front layer: on top of the text (z-index 8)
 const frontStickers = [
   {
-    src: "/UK's fizzi/UK's fizzi.png",
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033555/UK_s_fizzi_pjamoq.png',
     x: 14, y: 48, w: 8, r: '-8deg', speed: 0.16,
   },
   {
-    src: '/Sneakers/female sneakers.png',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033544/female_sneakers_pjcfbz.png',
     x: 86, y: 46, w: 10, r: '6deg', speed: 0.2,
   },
   {
-    src: '/Beauty - Aurelle/lipstick.png',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033521/lipstick_ggkafb.png',
     x: 50, y: 16, w: 7, r: '8deg', speed: 0.22,
   },
 ];

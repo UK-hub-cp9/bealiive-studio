@@ -1,106 +1,241 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
-// Complete collection of all unique images and videos across all campaign folders (excluding Assets)
+// Generate video first-frame thumbnail from Cloudinary video URL
+function getVideoPoster(videoUrl) {
+  return videoUrl
+    .replace('/upload/', '/upload/so_0/')
+    .replace('.mp4', '.jpg');
+}
+
+// All work items arranged by ad type, with Cloudinary video URLs
 const allWork = [
-  // 1st: BeALive Merch Ad (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947240/bealive_merch_ad_ot3cqt.mp4', poster: '/BeALive merch/bealive merch.png', title: 'BeALive Merch Ad', category: 'Brand', orientation: 'v' },
-  
-  // 2nd: Aurelle Lipstick Ad (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946840/lipstick_ad_ixtc2a.mp4', poster: '/Beauty - Aurelle/lipstick.png', title: 'Lipstick Ad', category: 'Beauty', orientation: 'v' },
-  
-  // Horizontal Aurelle Kit (Image)
-  { type: 'image', src: '/Beauty - Aurelle/aurelle kit.png', title: 'Aurelle Kit', category: 'Beauty', orientation: 'h' },
-  
-  // Horizontal UGC 2 (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_2_xouuti.mp4', poster: '/Beauty - Aurelle/lipstick.png', title: 'UGC 2', category: 'Beauty', orientation: 'h' },
-  
-  // Lipstick Still (Image)
-  { type: 'image', src: '/Beauty - Aurelle/lipstick.png', title: 'Lipstick Still', category: 'Beauty', orientation: 'v' },
-  
-  // Sneakers Unboxing (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947284/sneakers_unboxing_e3axjh.mp4', poster: '/Sneakers/female sneakers.png', title: 'Sneakers Unboxing', category: 'Fashion', orientation: 'v' },
-  
-  // Female Sneakers Still (Image)
-  { type: 'image', src: '/Sneakers/female sneakers.png', title: 'Female Sneakers', category: 'Fashion', orientation: 'v' },
-  
-  // Horizontal Hyper Motion (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946799/hyper_motion_cfjudn.mp4', poster: '/Beauty - Aurelle/aurelle kit.png', title: 'Hyper Motion', category: 'Beauty', orientation: 'h' },
-  
-  // Hair Serum Still (Image)
-  { type: 'image', src: '/Beauty - hair serum/ChatGPT Image Aug 5, 2026, 07_26_49 PM.png', title: 'Hair Serum', category: 'Beauty', orientation: 'v' },
-  
-  // Hair Serum Ad (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947247/hair_serum_ad_sznob4.mp4', poster: '/Beauty - hair serum/ChatGPT Image Aug 5, 2026, 07_26_49 PM.png', title: 'Hair Serum Ad', category: 'Beauty', orientation: 'v' },
-  
-  // Horizontal UGC 3 (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_3_gub3ak.mp4', poster: '/Beauty - Aurelle/aurelle kit.png', title: 'UGC 3', category: 'Beauty', orientation: 'h' },
-  
-  // UK's Fizzi Still (Image)
-  { type: 'image', src: "/UK's fizzi/UK's fizzi.png", title: "UK's Fizzi", category: 'Beverage', orientation: 'v' },
-  
-  // UK's Fizzi Ad (Video)
-  { type: 'video', src: "https://res.cloudinary.com/qllilxks/video/upload/v1785946856/UK_s_fizzi_ad_jhz7ym.mp4", poster: "/UK's fizzi/UK's fizzi.png", title: "UK's Fizzi Ad", category: 'Beverage', orientation: 'v' },
-  
-  // Aurelle Kit Ad (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946877/aurelle_kit_ad_rux5yd.mp4', poster: '/Beauty - Aurelle/aurelle kit.png', title: 'Aurelle Kit Ad', category: 'Beauty', orientation: 'v' },
-  
-  // Elvia Juice Still (Image)
-  { type: 'image', src: '/Juice/Elvia juice.png', title: 'Elvia Juice', category: 'Beverage', orientation: 'v' },
-  
-  // Elvia Juice Ad (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946911/juice_ad_gbvoa0.mp4', poster: '/Juice/Elvia juice.png', title: 'Elvia Juice Ad', category: 'Beverage', orientation: 'v' },
-  
-  // BeALive Merch Still (Image)
-  { type: 'image', src: '/BeALive merch/bealive merch.png', title: 'BeALive Merch', category: 'Brand', orientation: 'v' },
-  
-  // UGC (Video)
-  { type: 'video', src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_gaar5m.mp4', poster: '/Beauty - Aurelle/lipstick.png', title: 'UGC', category: 'Beauty', orientation: 'v' }
+  // Luxury Ads
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1786036695/hf_20260804_000956_11bb5daa-e13f-4300-9993-5b977d1cabf0_2_1_mjwin4.mp4',
+    //poster: 'https://res.cloudinary.com/qllilxks/video/upload/so_0/v1786036078/hf_20260804_000956_11bb5daa-e13f-4300-9993-5b977d1cabf0_2_y5hgjy.jpg',
+    title: 'Luxury Ad',
+    category: 'Luxury Ads',
+    orientation: 'v',
+  },
+
+  // Unboxing
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947284/sneakers_unboxing_e3axjh.mp4',
+    title: 'Sneakers Unboxing',
+    category: 'Unboxing',
+    orientation: 'v',
+  },
+
+  // UGC (vertical)
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947247/hair_serum_ad_sznob4.mp4',
+    title: 'Hair Serum UGC',
+    category: 'UGC',
+    orientation: 'v',
+  },
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947240/bealive_merch_ad_ot3cqt.mp4',
+    title: 'BeALive Merch UGC',
+    category: 'UGC',
+    orientation: 'v',
+  },
+
+  // Cinematic
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1786036794/cinematic_aurelle_lipstick_ad_2_db28gj.mp4',
+    title: 'Aurelle Cinematic',
+    category: 'Cinematic',
+    orientation: 'v',
+  },
+
+  // UGC (vertical)
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_gaar5m.mp4',
+    title: 'UGC',
+    category: 'UGC',
+    orientation: 'v',
+  },
+
+  // UGC (horizontal)
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_2_xouuti.mp4',
+    title: 'UGC Horizontal',
+    category: 'UGC',
+    orientation: 'h',
+  },
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785947232/ugc_3_gub3ak.mp4',
+    title: 'UGC Horizontal 2',
+    category: 'UGC',
+    orientation: 'h',
+  },
+
+  // Hyper Motion
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946911/juice_ad_gbvoa0.mp4',
+    title: 'Elvia Juice',
+    category: 'Hyper Motion',
+    orientation: 'v',
+  },
+
+  // UGC (vertical)
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946877/aurelle_kit_ad_rux5yd.mp4',
+    title: 'Aurelle Kit UGC',
+    category: 'UGC',
+    orientation: 'v',
+  },
+
+  // TV Shot
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946856/UK_s_fizzi_ad_jhz7ym.mp4',
+    title: "UK's Fizzi",
+    category: 'TV Shot',
+    orientation: 'v',
+  },
+
+  // Premium Try-On
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946840/lipstick_ad_ixtc2a.mp4',
+    title: 'Lipstick Try-On',
+    category: 'Premium Try-On',
+    orientation: 'v',
+  },
+
+  // Hyper Motion
+  {
+    type: 'video',
+    src: 'https://res.cloudinary.com/qllilxks/video/upload/v1785946799/hyper_motion_cfjudn.mp4',
+    title: 'Hyper Motion',
+    category: 'Hyper Motion',
+    orientation: 'h',
+  },
+
+  // Still images
+  {
+    type: 'image',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033521/lipstick_ggkafb.png',
+    title: 'Lipstick Still',
+    category: 'Cinematic',
+    orientation: 'v',
+  },
+  {
+    type: 'image',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033544/female_sneakers_pjcfbz.png',
+    title: 'Female Sneakers',
+    category: 'Unboxing',
+    orientation: 'v',
+  },
+  {
+    type: 'image',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033535/ChatGPT_Image_Aug_5_2026_07_26_49_PM_iaoob7.png',
+    title: 'Hair Serum',
+    category: 'UGC',
+    orientation: 'v',
+  },
+  {
+    type: 'image',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033555/UK_s_fizzi_pjamoq.png',
+    title: "UK's Fizzi",
+    category: 'TV Shot',
+    orientation: 'v',
+  },
+  {
+    type: 'image',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033493/Elvia_juice_pb69vg.png',
+    title: 'Elvia Juice',
+    category: 'Hyper Motion',
+    orientation: 'v',
+  },
+  {
+    type: 'image',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033506/bealive_merch_civ2uv.png',
+    title: 'BeALive Merch',
+    category: 'UGC',
+    orientation: 'v',
+  },
+  {
+    type: 'image',
+    src: 'https://res.cloudinary.com/qllilxks/image/upload/v1786033520/aurelle_kit_lijoqr.png',
+    title: 'Aurelle Kit',
+    category: 'UGC',
+    orientation: 'v',
+  },
 ];
 
-const categories = ['All', 'Beauty', 'Beverage', 'Fashion', 'Brand'];
+const categories = ['All', 'Luxury Ads', 'UGC', 'Cinematic', 'Hyper Motion', 'Unboxing', 'TV Shot', 'Premium Try-On'];
 
 function MediaCard({ item, index }) {
   const videoRef = useRef(null);
+  const cardRef = useRef(null);
   const [playing, setPlaying] = useState(false);
+  const timerRef = useRef(null);
+  const isVisible = useRef(false);
 
-  const handleMouseEnter = () => {
-    if (item.type === 'video' && videoRef.current) {
-      videoRef.current.play().catch(() => {});
-      setPlaying(true);
-    }
-  };
+  const posterUrl = item.type === 'video' ? getVideoPoster(item.src) : null;
 
-  const handleMouseLeave = () => {
-    if (item.type === 'video' && videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-      setPlaying(false);
-    }
-  };
-
-  const handleTap = () => {
-    if (item.type === 'video' && videoRef.current) {
-      if (videoRef.current.paused) {
-        videoRef.current.play().catch(() => {});
+  // Auto-play when card scrolls into view, pause when out
+  const startPlay = useCallback(() => {
+    if (!isVisible.current || item.type !== 'video') return;
+    timerRef.current = setTimeout(() => {
+      if (videoRef.current && isVisible.current) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play().catch(() => { });
         setPlaying(true);
-      } else {
-        videoRef.current.pause();
-        setPlaying(false);
       }
-    }
-  };
+    }, 800 + (index % 4) * 200); // small stagger
+  }, [index, item.type]);
+
+  useEffect(() => {
+    if (item.type !== 'video') return;
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          startPlay();
+        } else {
+          if (timerRef.current) clearTimeout(timerRef.current);
+          if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+          }
+          setPlaying(false);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(card);
+    return () => {
+      observer.disconnect();
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [startPlay, item.type]);
 
   return (
     <motion.div
+      ref={cardRef}
       className={`work-card work-card--${item.orientation}`}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: (index % 4) * 0.07 }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleTap}
     >
       <div className="work-card-media">
         {item.type === 'video' ? (
@@ -110,8 +245,8 @@ function MediaCard({ item, index }) {
               muted
               loop
               playsInline
-              preload="auto"
-              poster={item.poster}
+              preload="metadata"
+              poster={posterUrl}
             >
               <source src={item.src} type="video/mp4" />
             </video>
@@ -163,7 +298,7 @@ export default function AllWork() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
         >
-          Every frame we've crafted — hover to play, tap on mobile.
+          Every frame we've crafted — videos auto-play as you scroll.
         </motion.p>
 
         <motion.div
